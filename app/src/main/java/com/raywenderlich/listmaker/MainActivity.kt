@@ -91,8 +91,6 @@ class MainActivity : AppCompatActivity(),
             startActivityForResult(
                 listDetailIntent,
                 LIST_DETAIL_REQUEST_CODE)
-
-
         }
         else {
 

@@ -19,15 +19,15 @@ import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
 class ListDetailFragment : Fragment() {
 
     lateinit var binding: ListDetailFragmentBinding
+    lateinit var viewModel: MainViewModel
 
     companion object {
         fun newInstance() = ListDetailFragment()
     }
 
-    lateinit var viewModel: MainViewModel
-
     override fun onCreateView(inflater: LayoutInflater, container:
     ViewGroup?, savedInstanceState: Bundle?): View {
+
         // 1
         binding = ListDetailFragmentBinding.inflate(inflater,
             container, false)
