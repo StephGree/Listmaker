@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity(),
             val fragmentContainerViewId: Int = if
                                                        (binding.mainFragmentContainer == null) {
                 R.id.detail_container
-            } else {
+            }
+            else {
                 R.id.main_fragment_container
             }
 
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity(),
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(fragmentContainerViewId, mainFragment)
+            }
+            binding.fabButton.setOnClickListener {
+                showCreateListDialog()
             }
 
         }
