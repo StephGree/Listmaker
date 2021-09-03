@@ -43,8 +43,6 @@ class ListDetailActivity : AppCompatActivity() {
 
         }
 
-
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.detail_container, ListDetailFragment.newInstance())

@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity(),
         viewModel = ViewModelProvider(this,
 
             MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
-        )
-
-            .get(MainViewModel::class.java)
+        ).get(MainViewModel::class.java)
 
         binding = MainActivityBinding.inflate(layoutInflater)
         val view = binding.root

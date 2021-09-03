@@ -44,8 +44,8 @@ class ListDetailFragment : Fragment() {
             MainViewModelFactory(
                 PreferenceManager.getDefaultSharedPreferences
                     (requireActivity()))
-        )
-            .get(MainViewModel::class.java)
+        ).get(MainViewModel::class.java)
+
 
         val recyclerAdapter =
             ListItemsRecyclerViewAdapter(viewModel.list)
