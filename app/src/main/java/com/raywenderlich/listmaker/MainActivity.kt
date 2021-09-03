@@ -153,7 +153,8 @@ class MainActivity : AppCompatActivity(),
         // 2
         if (listDetailFragment == null) {
             super.onBackPressed()
-        } else {
+        }
+        else {
             // 3
             title = resources.getString(R.string.app_name)
             // 4
