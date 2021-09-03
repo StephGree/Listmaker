@@ -1,20 +1,25 @@
 package com.raywenderlich.listmaker.ui.detail
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.raywenderlich.listmaker.MainActivity
 import com.raywenderlich.listmaker.R
-import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.ListDetailActivityBinding
 import com.raywenderlich.listmaker.ui.detail.ui.detail.ListDetailFragment
 import com.raywenderlich.listmaker.ui.detail.ui.detail.ListDetailViewModel
+import com.raywenderlich.listmaker.ui.main.MainViewModel
+import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
 
 class ListDetailActivity : AppCompatActivity() {
-    lateinit var viewModel: ListDetailViewModel
+
+    lateinit var viewModel: MainViewModel
     lateinit var fragment: ListDetailFragment
 
     lateinit var binding: ListDetailActivityBinding
@@ -26,8 +31,14 @@ class ListDetailActivity : AppCompatActivity() {
         setContentView(view)
         binding.addTaskButton.setOnClickListener {
             showCreateTaskDialog()
-            viewModel =
-                ViewModelProvider(this).get(ListDetailViewModel::class.java)
+
+            viewModel = ViewModelProvider(
+                this,
+
+                MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
+
+            ).get(MainViewModel::class.java)
+
             title = viewModel.list.name
 
         }
@@ -36,7 +47,7 @@ class ListDetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ListDetailFragment.newInstance())
+                .replace(R.id.detail_container, ListDetailFragment.newInstance())
                 .commitNow()
         }
 
@@ -60,5 +71,15 @@ class ListDetailActivity : AppCompatActivity() {
             //6
             .create()
             .show()
+    }
+    override fun onBackPressed() {
+        val bundle = Bundle()
+        bundle.putParcelable(
+            MainActivity.INTENT_LIST_KEY,
+            viewModel.list)
+        val intent = Intent()
+        intent.putExtras(bundle)
+        setResult(Activity.RESULT_OK, intent)
+        super.onBackPressed()
     }
 }
