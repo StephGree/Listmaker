@@ -18,8 +18,8 @@ import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
 
 class ListDetailFragment : Fragment() {
 
-    lateinit var binding: ListDetailFragmentBinding
-    lateinit var viewModel: MainViewModel
+    lateinit var binding: ListDetailFragmentBinding // variable to store the binding
+    lateinit var viewModel: MainViewModel  // Variable to hold the ViewModel
 
     companion object {
         fun newInstance() = ListDetailFragment()
@@ -30,12 +30,12 @@ class ListDetailFragment : Fragment() {
         ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        // 1
+        // generates a binding class for you
         binding = ListDetailFragmentBinding.inflate(
             inflater,
             container, false
         )
-        // 2
+        //  return the root of the View for your Fragment.
         return binding.root
 
     }

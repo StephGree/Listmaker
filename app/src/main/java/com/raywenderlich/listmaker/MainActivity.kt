@@ -21,8 +21,8 @@ import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
 class MainActivity : AppCompatActivity(),
     MainFragment.MainFragmentInteractionListener  {
 
-    private lateinit var binding: MainActivityBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var binding: MainActivityBinding // variable to store the binding
+    private lateinit var viewModel: MainViewModel  // Variable to hold the ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
