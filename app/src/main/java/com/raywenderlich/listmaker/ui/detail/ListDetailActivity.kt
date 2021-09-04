@@ -31,17 +31,17 @@ class ListDetailActivity : AppCompatActivity() {
         setContentView(view)
         binding.addTaskButton.setOnClickListener {
             showCreateTaskDialog()
-
-            viewModel = ViewModelProvider(
-                this,
-
-                MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
-
-            ).get(MainViewModel::class.java)
-
-            title = viewModel.list.name
-
         }
+
+        viewModel = ViewModelProvider(
+            this,
+            MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
+        ).get(MainViewModel::class.java)
+        viewModel.list = intent.getParcelableExtra(MainActivity.INTENT_LIST_KEY)!!
+
+        title = viewModel.list.name
+
+
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -50,6 +50,7 @@ class ListDetailActivity : AppCompatActivity() {
         }
 
     }
+
     private fun showCreateTaskDialog() {
         //1
         val taskEditText = EditText(this)
@@ -70,11 +71,13 @@ class ListDetailActivity : AppCompatActivity() {
             .create()
             .show()
     }
+
     override fun onBackPressed() {
         val bundle = Bundle()
         bundle.putParcelable(
             MainActivity.INTENT_LIST_KEY,
-            viewModel.list)
+            viewModel.list
+        )
         val intent = Intent()
         intent.putExtras(bundle)
         setResult(Activity.RESULT_OK, intent)

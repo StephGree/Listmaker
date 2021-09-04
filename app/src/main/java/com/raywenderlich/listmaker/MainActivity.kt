@@ -53,12 +53,43 @@ class MainActivity : AppCompatActivity(),
                 setReorderingAllowed(true)
                 add(fragmentContainerViewId, mainFragment)
             }
+//            binding.fabButton.setOnClickListener {
+//                showCreateListDialog()
+//            }
+
+        }
+
+        binding.fabButton.setOnClickListener {
+            showCreateListDialog()
+        }
+    }
+
+    override fun onBackPressed() {
+        // 1
+        val listDetailFragment =
+
+            supportFragmentManager.findFragmentById(R.id.list_detail_fragment_container)
+
+        // 2
+        if (listDetailFragment == null) {
+            super.onBackPressed()
+        }
+        else {
+            // 3
+            title = resources.getString(R.string.app_name)
+            // 4
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                remove(listDetailFragment)
+            }
+
+            // 5
             binding.fabButton.setOnClickListener {
                 showCreateListDialog()
             }
-
         }
     }
+
     private fun showCreateListDialog() {
         // 1
         val dialogTitle = getString(R.string.name_of_list)
@@ -81,6 +112,20 @@ class MainActivity : AppCompatActivity(),
         // 4
         builder.create().show()
     }
+    private fun showCreateTaskDialog() {
+        val taskEditText = EditText(this)
+        taskEditText.inputType = InputType.TYPE_CLASS_TEXT
+        AlertDialog.Builder(this)
+            .setTitle(R.string.task_to_add)
+            .setView(taskEditText)
+            .setPositiveButton(R.string.add_task) { dialog, _ ->
+                val task = taskEditText.text.toString()
+                viewModel.addTask(task)
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
     private fun showListDetail(list: TaskList) {
         if (binding.mainFragmentContainer == null) {
             val listDetailIntent = Intent(
@@ -101,9 +146,9 @@ class MainActivity : AppCompatActivity(),
                     R.id.list_detail_fragment_container,
                     ListDetailFragment::class.java, bundle, null
                 )
-                binding.fabButton.setOnClickListener {
-                    showCreateTaskDialog()
-                }
+            }
+            binding.fabButton.setOnClickListener {
+                showCreateTaskDialog()
             }
         }
     }
@@ -130,43 +175,5 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
-    private fun showCreateTaskDialog() {
-        val taskEditText = EditText(this)
-        taskEditText.inputType = InputType.TYPE_CLASS_TEXT
-        AlertDialog.Builder(this)
-            .setTitle(R.string.task_to_add)
-            .setView(taskEditText)
-            .setPositiveButton(R.string.add_task) { dialog, _ ->
-                val task = taskEditText.text.toString()
-                viewModel.addTask(task)
-                dialog.dismiss()
-            }
-            .create()
-            .show()
-    }
-    override fun onBackPressed() {
-        // 1
-        val listDetailFragment =
 
-            supportFragmentManager.findFragmentById(R.id.list_detail_fragment_container)
-
-        // 2
-        if (listDetailFragment == null) {
-            super.onBackPressed()
-        }
-        else {
-            // 3
-            title = resources.getString(R.string.app_name)
-            // 4
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                remove(listDetailFragment)
-            }
-
-            // 5
-            binding.fabButton.setOnClickListener {
-                showCreateListDialog()
-            }
-        }
-    }
 }

@@ -25,12 +25,16 @@ class ListDetailFragment : Fragment() {
         fun newInstance() = ListDetailFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container:
-    ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container:
+        ViewGroup?, savedInstanceState: Bundle?
+    ): View {
 
         // 1
-        binding = ListDetailFragmentBinding.inflate(inflater,
-            container, false)
+        binding = ListDetailFragmentBinding.inflate(
+            inflater,
+            container, false
+        )
         // 2
         return binding.root
 
@@ -43,25 +47,24 @@ class ListDetailFragment : Fragment() {
             requireActivity(),
             MainViewModelFactory(
                 PreferenceManager.getDefaultSharedPreferences
-                    (requireActivity()))
+                    (requireActivity())
+            )
         ).get(MainViewModel::class.java)
 
-
+        val list: TaskList? = arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
+        if (list != null) {
+            viewModel.list = list
+            requireActivity().title = list.name
+        }
         val recyclerAdapter =
             ListItemsRecyclerViewAdapter(viewModel.list)
         binding.listItemsRecyclerview.adapter = recyclerAdapter
-        binding.listItemsRecyclerview.layoutManager =
-            LinearLayoutManager(requireContext())
+        binding.listItemsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.onTaskAdded = {
             recyclerAdapter.notifyDataSetChanged()
 
-            val list: TaskList? =
-                arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
-            if (list != null) {
-                viewModel.list = list
-                requireActivity().title = list.name
-            }
         }
     }
+
 }
