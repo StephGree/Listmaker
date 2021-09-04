@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this,
+        viewModel = ViewModelProvider(
+            this,
 
             MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
         ).get(MainViewModel::class.java)
@@ -43,8 +44,7 @@ class MainActivity : AppCompatActivity(),
             val fragmentContainerViewId: Int = if
                                                        (binding.mainFragmentContainer == null) {
                 R.id.detail_container
-            }
-            else {
+            } else {
                 R.id.main_fragment_container
             }
 
@@ -52,15 +52,12 @@ class MainActivity : AppCompatActivity(),
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(fragmentContainerViewId, mainFragment)
+
+                binding.fabButton.setOnClickListener {
+                    showCreateListDialog()
+                }
             }
-//            binding.fabButton.setOnClickListener {
-//                showCreateListDialog()
-//            }
 
-        }
-
-        binding.fabButton.setOnClickListener {
-            showCreateListDialog()
         }
     }
 
